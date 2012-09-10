@@ -1,0 +1,237 @@
+package smartVote;
+use Dancer ':syntax';
+use Data::Dumper;
+
+our $VERSION = '0.1';
+use Dancer::Plugin::Database;
+use CGI::FormBuilder;
+get '/newdb' => sub{
+	my $time=localtime;
+	#if ( -e 'voters.sqlite'){ `mv voters.sqlite voters.sqlite.$time`;`touch voters.sqlite`;}
+	my $sth=database->prepare('CREATE TABLE [details] ( 
+		[id] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+		[Name] TEXT  NULL,
+	       	[Middle_Name] TEXT  NULL, 
+		[Family_Name] TEXT  NULL,
+		[DOB] DATE  NULL,
+		[Birth_Town] TEXT  NULL,
+		[Birth_District] TEXT  NULL,
+		[Birth_State] TEXT  NULL,
+		[Relation_Type] TEXT NULL,
+		[Relation_Name] TEXT NULL,
+		[Relation_Sirname] TEXT NULL,
+		[Door_number] TEXT NULL,
+		[Apartment_Name] TEXT NULL,
+		[Street] TEXT NULL,
+		[Town] TEXT NULL,
+		[Post_office] TEXT  NULL,
+		[Taluka] TEXT  NULL,
+		[District] TEXT  NULL,
+		[Pincode] TEXT NULL,
+		[Assembly_Constituency] TEXT  NULL,
+		[Sex] TEXT  NULL,
+		[FormType] TEXT  NULL,
+		[PreviousIDNumber] TEXT  NULL
+		)') or debug $?;
+	debug Dumper($sth);
+	$sth->execute();
+	return "New Db Created";
+
+};
+get '/' => sub {
+	my $prefix_setting = Dancer::App->current->prefix || '';
+	my $actionurl=$prefix_setting.'';
+	my $defaultValues;
+	my $form=CGI::FormBuilder->new(
+		title=>'Association details',
+		fields=>[qw(Assembly_Constituency Apartment_Name Street Town Post_office Taluka District Pincode)],
+		action =>$actionurl,
+);
+	if ($form->submitted && $form->validate) {
+		my $hshref=$form->field;
+		session $form->title => $hshref;
+		redirect '/rwa/';
+	}
+	my $template_engine = engine 'template';
+	$template_engine->apply_layout($form->render);
+};
+post '/rwa/'=>sub {
+	debug "File Upload";
+	my $file = upload('filename');
+	$file->copy_to('rwa'.$file->filename);
+	debug "File Upload Copied";
+
+	use Text::Iconv;
+	my $converter = Text::Iconv -> new ("utf-8", "windows-1251");
+
+	# Text::Iconv is not really required.
+	# This can be any object with the convert method. Or nothing.
+
+	use Spreadsheet::XLSX;
+
+	my $dir='';
+	debug $file->filename;
+	my $filename='rwa'.$file->filename;
+	my $excel = Spreadsheet::XLSX -> new ($filename, $converter);
+	my @candidates;
+
+	my $commonData=session 'Association details';
+	debug Dumper($commonData);
+	foreach my $sheet (@{$excel -> {Worksheet}}) {
+
+
+		$sheet -> {MaxRow} ||= $sheet -> {MinRow};
+
+		foreach my $row ($sheet -> {MinRow} .. $sheet -> {MaxRow}) {
+			my $candidate={};
+
+			$sheet -> {MaxCol} ||= $sheet -> {MinCol};
+			my @fields=qw(Name Middle_Name Family_Name DOB Relation_Type Door_number Apartment_Name Birth_Town Birth_District Birth_State Sex FormType PreviousIDNumber);
+			foreach my $col ($sheet -> {MinCol} ..  $sheet -> {MaxCol}) {
+				my $cell = $sheet -> {Cells} [$row] [$col];
+				if( $col<=$#fields){
+					if ($cell ) {
+						$candidate->{$fields[$col]}= $cell->{Val};
+					}else {
+						#debug "$col $fields[$col] Colbug";
+
+						$candidate->{$fields[$col]}= 'NIL';
+					}
+				}
+			}
+
+			foreach (qw(Apartment_Name Street Town Post_office Taluka District Pincode Assembly_Constituency))
+			{
+				$candidate->{$_}=$commonData->{$_};
+				debug "undef $_" unless ($commonData->{$_});}
+			foreach (qw(Door Building))
+			{debug "undef $_" unless ($candidate->{$_});
+			}
+			$candidate->{'Assembly_Constituency'}        = $commonData->{Assembly_Constituency};
+			database->quick_insert('details',$candidate);
+
+			push @candidates,$candidate;
+		}
+	}
+	my $candidates=database->quick_select('details',{},[qw(id Name Middle_Name Family_Name)]);
+	return template 'candidate_list' ,{cfg=>$candidates };
+};
+get '/voter/' =>sub{
+	my @candidates=database->quick_select('details',{},[qw(id Name Middle_Name Family_Name)]);
+	return template 'candidate_list' ,{cfg=>\@candidates };
+
+};
+get '/voter/print/:id'=>sub {
+	my $candidate=database->quick_select('details',{id=>params->{id}});
+	return template 'candidate' {cfg=>$candidate};
+};
+get '/voter/edit/:id'=>sub {
+	my $prefix_setting = Dancer::App->current->prefix || '';
+	my $actionurl=$prefix_setting.'';
+	my $candidate=database->quick_select('details',{id=>params->{id}});
+		my @fields=keys %$candidate;
+		my$form=CGI::FormBuilder->new(
+			fields=>[@fields],
+			title=>"Edit Records for ".$candidate->{'Name'},
+			method=>'GET',
+			action =>$actionurl,
+			values=>$candidate
+	);
+	if ($form->submitted && $form->validate) {
+		my$flds=$form->fields;
+		database->quick_update('details',{id=>params->{id}},$flds);
+		redirect '/voter/';
+	}
+
+	my $template_engine = engine 'template';
+	$template_engine->apply_layout($form->render);
+};
+any ['get'] =>'/rwa/' =>sub{
+	my $prefix_setting = Dancer::App->current->prefix || '';
+	my $actionurl=$prefix_setting.'';
+	my $form = CGI::FormBuilder->new(
+		enctype => 'multipart/form-data',
+		method  => 'POST',
+		action =>$actionurl,
+		fields  => [qw(filename)]
+	);
+
+	$form->field(name => 'filename', type => 'file');
+	debug "Checking Submission";
+	if ($form->submitted) {
+		debug "Checking Submission Passed";
+		my $file = $form->field('filename');
+		debug "Checking file $file";
+
+		# save contents in file, etc ...
+		my $dir='';
+		open F, ">$dir/$file" or die $!;
+		debug "Opening file $!";
+		while (<$file>) {
+			print F;
+		}
+		close F;
+		debug "File saved";
+
+		use Text::Iconv;
+		my $converter = Text::Iconv -> new ("utf-8", "windows-1251");
+
+		# Text::Iconv is not really required.
+		# This can be any object with the convert method. Or nothing.
+
+		use Spreadsheet::XLSX;
+
+		my $excel = Spreadsheet::XLSX -> new ("$dir/$file", $converter);
+		my $candidate={};
+
+		my $commonData=session 'Association details';
+		foreach my $sheet (@{$excel -> {Worksheet}}) {
+
+			#printf("Sheet: %s\n", $sheet->{Name});
+
+			$sheet -> {MaxRow} ||= $sheet -> {MinRow};
+
+			foreach my $row ($sheet -> {MinRow} .. $sheet -> {MaxRow}) {
+
+				$sheet -> {MaxCol} ||= $sheet -> {MinCol};
+
+				$candidate->{'Name'}=$sheet -> {Cells} [$row] [1];
+				$candidate->{'Middle_Name'}=$sheet -> {Cells} [$row] [2];
+				$candidate->{'Family_Name'}=$sheet -> {Cells} [$row] [3];
+				$candidate->{'DOB'}=$sheet -> {Cells} [$row] [4];
+				$candidate->{'Address'}=$sheet -> {Cells} [$row] [5].  $sheet -> {Cells} [$row] [6].  $commonData->{Apartment_Name}.  $commonData->{District}.  $commonData->{Post}.  $commonData->{Street}.  $commonData->{Town};
+				$candidate->{'Birth_Town'}=$sheet -> {Cells} [$row] [7];
+				$candidate->{'Birth_District'}=$sheet -> {Cells} [$row] [8];
+				$candidate->{'Birth_State'}=$sheet -> {Cells} [$row] [9];
+				$candidate->{'Sex'}=$sheet -> {Cells} [$row] [10];
+				$candidate->{'FormType'}=$sheet -> {Cells} [$row] [11];
+				database->quick_insert('details',{
+						Name=>$sheet -> {Cells} [$row] [1],
+						Middle_Name=>$sheet -> {Cells} [$row] [2],
+						Family_Name=>$sheet -> {Cells} [$row] [3],
+						DOB=>$sheet -> {Cells} [$row] [4],
+						Address=>$sheet -> {Cells} [$row] [5].  $sheet -> {Cells} [$row] [6].  $commonData->{Apartment_Name}.  $commonData->{District}.  $commonData->{Post}.  $commonData->{Street}.  $commonData->{Town},
+						Birth_Town=>$sheet -> {Cells} [$row] [7],
+						Birth_District=>$sheet -> {Cells} [$row] [8],
+						Birth_State=>$sheet -> {Cells} [$row] [9],
+						Sex=>$sheet -> {Cells} [$row] [10],
+						FormType=>$sheet -> {Cells} [$row] [11]
+					});
+
+				#foreach my $col ($sheet -> {MinCol} ..  $sheet -> {MaxCol}) {
+				#        my $cell = $sheet -> {Cells} [$row] [$col];
+				#        if ($cell) {
+				#       	 printf("( %s , %s ) => %s\n", $row, $col, $cell -> {Val});
+				#        }
+				#}
+			}
+		}
+		debug "File Saved";
+		return template 'candidate' ,{cfg=>$candidate };
+	}
+
+	my $template_engine = engine 'template';
+	$template_engine->apply_layout($form->render);
+};
+
+true;

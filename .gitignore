@@ -1,0 +1,8 @@
+# databases #
+######################
+*.log
+*.sql
+*.sqlite
+*~
+*.swp
+*.swo

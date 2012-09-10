@@ -1,0 +1,10 @@
+--- !!perl/hash:Dancer::Session::YAML
+Association details:
+  Apartment_Name: cc
+  Assembly_Constituency: aa
+  District: ''
+  Pincode: ''
+  Post: ''
+  Street: ''
+  Town: ''
+id: 264381854521293805355303392172699142
