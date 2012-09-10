@@ -31,7 +31,10 @@ get '/newdb' => sub{
 		[Assembly_Constituency] TEXT  NULL,
 		[Sex] TEXT  NULL,
 		[FormType] TEXT  NULL,
-		[PreviousIDNumber] TEXT  NULL
+		[PreviousIDNumber] TEXT  NULL,
+		[email] TEXT  NULL,
+		[phone] TEXT  NULL,
+		[verified] Boolean  NULL,
 		)') or debug $?;
 	debug Dumper($sth);
 	$sth->execute();
@@ -123,12 +126,12 @@ get '/voter/' =>sub{
 };
 get '/voter/print/:id'=>sub {
 	my $candidate=database->quick_select('details',{id=>params->{id}});
-	return template 'candidate' {cfg=>$candidate};
+	return template 'candidate' ,{cfg=>[$candidate]};
 };
-get '/voter/edit/:id'=>sub {
+get '/voter/:mode/:id'=>sub {
 	my $prefix_setting = Dancer::App->current->prefix || '';
 	my $actionurl=$prefix_setting.'';
-	my $candidate=database->quick_select('details',{id=>params->{id}});
+		my $candidate=database->quick_select('details',{id=>params->{id}});
 		my @fields=keys %$candidate;
 		my$form=CGI::FormBuilder->new(
 			fields=>[@fields],
@@ -139,7 +142,11 @@ get '/voter/edit/:id'=>sub {
 	);
 	if ($form->submitted && $form->validate) {
 		my$flds=$form->fields;
+	if(params->{mode} eq 'new'){
+		database->quick_insert('details',$flds);
+	}elsif(params->{mode} eq 'edit') {
 		database->quick_update('details',{id=>params->{id}},$flds);
+	}
 		redirect '/voter/';
 	}
 
