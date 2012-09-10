@@ -6,3 +6,9 @@
 *~
 *.swp
 *.swo
+*.bak
+sessions/*
+t/*
+voters.sqlite
+rwa*
+
