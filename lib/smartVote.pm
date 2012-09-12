@@ -9,12 +9,35 @@ hook 'database_error'=>sub{
 	my $msg=shift;
 	debug $msg;
 };
+get '/excel_format' => sub {
+	           use Spreadsheet::WriteExcel;
+		   my $filename='voter_format.xls';
+		   my $workbook = Spreadsheet::WriteExcel->new($filename);
+		   my $db=database('new');
+
+		   #Add a worksheet
+		   my $worksheet = $workbook->add_worksheet();
+		   # Write a formatted and unformatted string, row and column notation.
+		   my $candidate=$db->quick_select('details',{});
+		   my @fields=keys %$candidate;
+		   debug @fields;
+		   my $col;my $row;
+		   $col = $row = 1;
+		   foreach my $c (1 .. scalar @fields) {
+			   $worksheet->write($row, $c, $fields[$c]);
+			   debug $fields[$c];
+		   }
+		   $workbook->close();
+		   return send_file ('./'.$filename,system_path=>1);
+	   };
+
 get '/newdb' => sub{
 	my $time=localtime;
 	#if ( -e 'voters.sqlite'){ `mv voters.sqlite voters.sqlite.$time`;`touch voters.sqlite`;}
-	my $sth=database->prepare('drop table if exists [details]');
+		   my $db=database('new');
+	my $sth=$db->prepare('drop table if exists [details]');
 	$sth->execute();
-	my $sth=database->prepare('CREATE TABLE [details] ( 
+	my $sth=$db->prepare('CREATE TABLE [details] ( 
 		[id] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
 		[Name] TEXT  NULL,
 	       	[Middle_Name] TEXT  NULL, 
@@ -64,7 +87,23 @@ get '/' => sub {
 	my $template_engine = engine 'template';
 	$template_engine->apply_layout($form->render);
 };
+get '/rwa/' =>sub{
+	my $prefix_setting = Dancer::App->current->prefix || '';
+	my $actionurl=$prefix_setting.'';
+	my $form = CGI::FormBuilder->new(
+		enctype => 'multipart/form-data',
+		method  => 'POST',
+		action =>$actionurl,
+		fields  => [qw(filename)]
+	);
+
+	$form->field(name => 'filename', type => 'file');
+
+	my $template_engine = engine 'template';
+	$template_engine->apply_layout($form->render);
+};
 post '/rwa/'=>sub {
+		   my $db=database('new');
 	debug "File Upload";
 	my $file = upload('filename');
 	$file->copy_to('rwa'.$file->filename);
@@ -76,68 +115,79 @@ post '/rwa/'=>sub {
 	# Text::Iconv is not really required.
 	# This can be any object with the convert method. Or nothing.
 
-	use Spreadsheet::XLSX;
+	use Spreadsheet::ParseExcel;
 
 	my $dir='';
-	debug $file->filename;
 	my $filename='rwa'.$file->filename;
-	my $excel = Spreadsheet::XLSX -> new ($filename, $converter);
-	my @candidates;
+	my $excel = Spreadsheet::ParseExcel -> new ($filename, $converter);
 
+	debug $filename;
 	my $commonData=session 'Association details';
 	debug Dumper($commonData);
-	foreach my $sheet (@{$excel -> {Worksheet}}) {
 
+	my $parser   = Spreadsheet::ParseExcel->new();
+	my $workbook = $parser->parse($filename);
 
-		$sheet -> {MaxRow} ||= $sheet -> {MinRow};
+	if ( !defined $workbook ) {
+		die $parser->error(), ".\n";
+	}
 
-		foreach my $row ($sheet -> {MinRow} .. $sheet -> {MaxRow}) {
+	for my $worksheet ( $workbook->worksheets() ) {
+
+		my ( $row_min, $row_max ) = $worksheet->row_range();
+		my ( $col_min, $col_max ) = $worksheet->col_range();
+
+			my @fields=qw(Name Family_Name Relation_Name Relation_Sirname Relation_Type DOB Sex Birth_State Birth_Town Birth_District Door_number PreviousIDNumber FormType email phone);
+		for my $row ( $row_min .. $row_max ) {
+			debug 'ROW';
 			my $candidate={};
+			for my $col ( $col_min .. $col_max ) {
 
-			$sheet -> {MaxCol} ||= $sheet -> {MinCol};
-			my @fields=qw(Name Middle_Name Family_Name DOB Relation_Type Door_number Apartment_Name Birth_Town Birth_District Birth_State Sex FormType PreviousIDNumber);
-			foreach my $col ($sheet -> {MinCol} ..  $sheet -> {MaxCol}) {
-				my $cell = $sheet -> {Cells} [$row] [$col];
-				if( $col<=$#fields){
-					if ($cell ) {
-						$candidate->{$fields[$col]}= $cell->{Val};
-					}else {
-						#debug "$col $fields[$col] Colbug";
+				my $cell = $worksheet->get_cell( $row, $col );
+				if(!$cell){
+					$candidate->{$fields[$col]}= 'NIL';
+					next;
+				};
 
-						$candidate->{$fields[$col]}= 'NIL';
-					}
-				}
+				$candidate->{$fields[$col]}= $cell->value();
+				debug "Row, Col    = ($row, $col)\n";
+				debug "Value       = ", $cell->value(),       "\n";
+				debug "Unformatted = ", $cell->unformatted(), "\n";
+				debug "\n";
 			}
-
 			foreach (qw(Apartment_Name Street Town Post_office Taluka District Pincode Assembly_Constituency))
 			{
 				$candidate->{$_}=$commonData->{$_};
 				debug "undef $_" unless ($commonData->{$_});}
-			foreach (qw(Door Building))
+			foreach (@fields)
 			{debug "undef $_" unless ($candidate->{$_});
 			}
 			$candidate->{'Assembly_Constituency'}        = $commonData->{Assembly_Constituency};
-			database->quick_insert('details',$candidate);
-
-			push @candidates,$candidate;
+			debug Dumper ($candidate);
+			$db->quick_insert('details',$candidate);
 		}
 	}
-	my $candidates=database->quick_select('details',{},[qw(id Name Middle_Name Family_Name)]);
+
+	my $candidates=$db->quick_select('details',{},[qw(id Name Middle_Name Family_Name)]);
 	return template 'candidate_list' ,{cfg=>$candidates };
+	##############################################
 };
 get '/voter/' =>sub{
-	my @candidates=database->quick_select('details',{},[qw(id Name Middle_Name Family_Name)]);
+		   my $db=database('new');
+	my @candidates=$db->quick_select('details',{},[qw(id Name Middle_Name Family_Name)]);
 	return template 'candidate_list' ,{cfg=>\@candidates };
 
 };
-get '/voter/print/:id'=>sub {
-	my $candidate=database->quick_select('details',{id=>params->{id}});
-	return template 'candidate' ,{cfg=>[$candidate]};
-};
 get '/voter/:mode/:id'=>sub {
+		   my $db=database('new');
+	if (params->{mode} eq 'print'){
+	my $candidate=$db->quick_select('details',{id=>params->{id}});
+	return template 'candidate' ,{cfg=>[$candidate]};
+	}
+
 	my $prefix_setting = Dancer::App->current->prefix || '';
 	my $actionurl=$prefix_setting.'';
-		my $candidate=database->quick_select('details',{id=>params->{id}});
+		my $candidate=$db->quick_select('details',{id=>params->{id}});
 		my @fields=keys %$candidate;
 		my$form=CGI::FormBuilder->new(
 			fields=>[@fields],
@@ -150,9 +200,9 @@ get '/voter/:mode/:id'=>sub {
 	if ($form->submitted && $form->validate) {
 		my$flds=$form->fields;
 	if(params->{mode} eq 'new'){
-		database->quick_insert('details',$flds);
+		$db->quick_insert('details',$flds);
 	}elsif(params->{mode} eq 'edit') {
-		database->quick_update('details',{id=>params->{id}},$flds);
+		$db->quick_update('details',{id=>params->{id}},$flds);
 	}
 		redirect '/voter/';
 	}
@@ -161,96 +211,15 @@ get '/voter/:mode/:id'=>sub {
 	$template_engine->apply_layout($form->render);
 };
 use Dancer::Plugin::Ajax;
-ajax '/voter/find/'=>sub{
-	debug "Ajax Called";
-	return qw(1111 1112 11113 11114 11115 11116 11117 11118);
+get '/voter/find'=>sub{
+	return send_file '/javascripts/autocomplete/demo/index.html';
 };
-any ['get'] =>'/rwa/' =>sub{
-	my $prefix_setting = Dancer::App->current->prefix || '';
-	my $actionurl=$prefix_setting.'';
-	my $form = CGI::FormBuilder->new(
-		enctype => 'multipart/form-data',
-		method  => 'POST',
-		action =>$actionurl,
-		fields  => [qw(filename)]
-	);
-
-	$form->field(name => 'filename', type => 'file');
-	debug "Checking Submission";
-	if ($form->submitted) {
-		debug "Checking Submission Passed";
-		my $file = $form->field('filename');
-		debug "Checking file $file";
-
-		# save contents in file, etc ...
-		my $dir='';
-		open F, ">$dir/$file" or die $!;
-		debug "Opening file $!";
-		while (<$file>) {
-			print F;
-		}
-		close F;
-		debug "File saved";
-
-		use Text::Iconv;
-		my $converter = Text::Iconv -> new ("utf-8", "windows-1251");
-
-		# Text::Iconv is not really required.
-		# This can be any object with the convert method. Or nothing.
-
-		use Spreadsheet::XLSX;
-
-		my $excel = Spreadsheet::XLSX -> new ("$dir/$file", $converter);
-		my $candidate={};
-
-		my $commonData=session 'Association details';
-		foreach my $sheet (@{$excel -> {Worksheet}}) {
-
-			#printf("Sheet: %s\n", $sheet->{Name});
-
-			$sheet -> {MaxRow} ||= $sheet -> {MinRow};
-
-			foreach my $row ($sheet -> {MinRow} .. $sheet -> {MaxRow}) {
-
-				$sheet -> {MaxCol} ||= $sheet -> {MinCol};
-
-				$candidate->{'Name'}=$sheet -> {Cells} [$row] [1];
-				$candidate->{'Middle_Name'}=$sheet -> {Cells} [$row] [2];
-				$candidate->{'Family_Name'}=$sheet -> {Cells} [$row] [3];
-				$candidate->{'DOB'}=$sheet -> {Cells} [$row] [4];
-				$candidate->{'Address'}=$sheet -> {Cells} [$row] [5].  $sheet -> {Cells} [$row] [6].  $commonData->{Apartment_Name}.  $commonData->{District}.  $commonData->{Post}.  $commonData->{Street}.  $commonData->{Town};
-				$candidate->{'Birth_Town'}=$sheet -> {Cells} [$row] [7];
-				$candidate->{'Birth_District'}=$sheet -> {Cells} [$row] [8];
-				$candidate->{'Birth_State'}=$sheet -> {Cells} [$row] [9];
-				$candidate->{'Sex'}=$sheet -> {Cells} [$row] [10];
-				$candidate->{'FormType'}=$sheet -> {Cells} [$row] [11];
-				database->quick_insert('details',{
-						Name=>$sheet -> {Cells} [$row] [1],
-						Middle_Name=>$sheet -> {Cells} [$row] [2],
-						Family_Name=>$sheet -> {Cells} [$row] [3],
-						DOB=>$sheet -> {Cells} [$row] [4],
-						Address=>$sheet -> {Cells} [$row] [5].  $sheet -> {Cells} [$row] [6].  $commonData->{Apartment_Name}.  $commonData->{District}.  $commonData->{Post}.  $commonData->{Street}.  $commonData->{Town},
-						Birth_Town=>$sheet -> {Cells} [$row] [7],
-						Birth_District=>$sheet -> {Cells} [$row] [8],
-						Birth_State=>$sheet -> {Cells} [$row] [9],
-						Sex=>$sheet -> {Cells} [$row] [10],
-						FormType=>$sheet -> {Cells} [$row] [11]
-					});
-
-				#foreach my $col ($sheet -> {MinCol} ..  $sheet -> {MaxCol}) {
-				#        my $cell = $sheet -> {Cells} [$row] [$col];
-				#        if ($cell) {
-				#       	 printf("( %s , %s ) => %s\n", $row, $col, $cell -> {Val});
-				#        }
-				#}
-			}
-		}
-		debug "File Saved";
-		return template 'candidate' ,{cfg=>$candidate };
-	}
-
-	my $template_engine = engine 'template';
-	$template_engine->apply_layout($form->render);
+ajax '/voter/find'=>sub{
+		   my $db=database('existing');
+		   debug Dumper(params->{'q'});
+		   my @user=$db->quick_select('registered_voters',{Voter_Name=>{like=>'%'.params->{'q'}.'%'}},{limit=>10});
+	debug "Ajax Called". to_json(\@user);
+	return  to_json(\@user);
 };
 
 true;

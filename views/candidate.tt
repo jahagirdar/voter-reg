@@ -1,43 +1,54 @@
-
+<%BLOCK b%> <b><%var%></b><%END%>
       <div id="content">
-<h1>Form <%IF p.FormType == 'New'%>6<%ELSIF p.FormType == 'Relocate_same'%>8-A<%ELSE%>7<%END%></h1>
 <%FOREACH p IN cfg%>
-<h1>“FORM 6”Application for inclusion of name in electoral roll</h1>
+<h1>Form <%IF p.FormType == 6%>
+“FORM 6”Application for inclusion of name in electoral roll
+<%ELSIF p.FormType == 'Relocate_same'%>
+Form 8-a Change of address within the same constituency<%ELSE%>Form 6 & 7 Deletion of name from different constituency and adding it to this constituency<%END%></h1>
 [See rules 13(1) and 26]
-
+<table>
+<tr><td>
 To<br/>
 The Electoral Registration Officer,<br/>
-<b><%p.Assembly_Constituency%></b> Assembly Constituency<br/>
+<%PROCESS b var=p.Assembly_Constituency%> Assembly Constituency<br/>
 Sir,
 <p>
 I request that my name be included in the electoral roll for the above Constituency. Particulars in support of my claim for inclusion in the electoral roll are given below:
 </p>
+</td><td width="4cm" height="4cm" border="1"><center>Space for 3.5cm x3.5cm photographs <center> </td></tr
+
+</table>
 <table>
-<tr><td>Name</td><td>Fathers Name</td><td>Surname</td></tr>
-<tr><td><b><%p.Name%></b></td><td><b><%p.Middle_Name%></b></td><td><b><%p.Family_Name%></b></td></tr>
+<tr><td>Name</td><td>Surname</td></tr>
+<tr><td><%PROCESS b var=p.Name%></td><td><%PROCESS b var=p.Family_Name%></td></tr>
 </table>
 <h2>I. Applicant’s details</h2>
 <table>
 <tr><td>Age as on 1st January 2012<b>TBD</b></td><td>Years<b>TBD</b></td><td>Months<b>TBD</b></td></tr>
-<tr><td>Date of Birth(YYYY-MM-DD) <b><%p.DOB%></b></td></tr>
-<tr><td>Sex <b><%p.Sex%></b></td></tr>
+<tr><td>Date of Birth(YYYY-MM-DD) <%PROCESS b var=p.DOB%></td></tr>
+<tr><td>Sex <%PROCESS b var=p.Sex%></td></tr>
 <tr><td>Place of Birth: </td><td>Village/Town:</td><td>District :</td><td>State:</td></tr>
-<tr><b><td>                </td><td><%p.Birth_Town%></td><td><%p.Birth_District%></td><td><%p.Birth_State%></td></b></tr>
+<tr><b><td>                </td><td><%PROCESS b var=p.Birth_Town%></td><td><%PROCESS b var=p.Birth_District%></td><td><%PROCESS b var=p.Birth_State%></td></b></tr>
 <tr><td></td><td></td><td></td><td></td></tr>
-<tr><td>Father’s/Mothers/Husbands Name</td><td>Surname (if any)</td><td></td><td></td></tr>
-<tr><td><%p.Middle_Name%></td><td><%p.Family_Name%></td><td></td><td></td></tr>
+<tr><td>Relation <%PROCESS b var=p.Relation_Type%>  Name</td><td>Surname (if any)</td><td></td><td></td></tr>
+<tr><td><%PROCESS b var=p.Relation_Name%></td><td><%PROCESS b var=p.Relation_Sirname%></td><td></td><td></td></tr>
 </table>
 II. Particulars of place of ordinary residence (Full address):
-<%p.Address%>
 <table>
-<tr><td>House/Door number:<%p.Door%>,<%p.Building%></td><td>Street/Area/Locality/Mohalla/Road:<%p.Street%> <%p.Apartment_Name%></td><td>Town/Village:<p.Town%></td><td>Post Office</td></tr>
-<tr><td>Tehsil/Taluka/Mandal/Thana</td><td>District:<%p.District%></td><td>Pin Code <%p.Pin%></td><td></td></tr>
+<tr><td>House/Door number:<%PROCESS b var=p.Door_number%>, <%PROCESS b var=p.Apartment_Name%></td></tr>
+<tr><td>Street/ Area/ Locality/ Mohalla/ Road:<%PROCESS b var=p.Street%>,</td><td>Town/Village:<%PROCESS b var=p.Town%></td></tr>
+<tr><td>Post Office <%PROCESS b var=p.Post_office%></td></tr>
+<tr><tr><td>Tehsil/Taluka/Mandal/Thana<%PROCESS b var=p.Taluka%></td><td>District:<%PROCESS b var=p.District%></td><td>Pin Code <%PROCESS b var=p.Pincode%></td><td></td></tr>
 <table>
-……..……………………………………………..(Perforation)……………………………………………………………………
+<hr/>
+<center>…..(Cut here)……</center>
 <hr/>
 Receipt for application<br>
-Received the application in From 6 of ** Shri/Shrimati/Kumari <%p.Name%>.<br>
-** Address <%p.Address%><br>
+Received the application in From 6 of ** Shri/Shrimati/Kumari <%PROCESS b var=p.Name%>.<br/>
+** Address <%PROCESS b var=p.Door_number%>, <%PROCESS b var=p.Apartment_Name%> ,<br/>
+<%PROCESS b var=p.Street%>,<%PROCESS b var=p.Town%>,<%PROCESS b var=p.Post_office%> Post,<br/>
+<%PROCESS b var=p.Taluka%>, <td>District:<%PROCESS b var=p.District%>,<br/>
+Pin Code <%PROCESS b var=p.Pincode%><br/>
 Date:………….   <br/>
 
 Signature of the officer receiving the application on behalf of the Electoral Registration Officer<br/>
@@ -51,35 +62,33 @@ since …………….. (data, month, year); (iii) I have not applied for the in
 the electoral roll for any other constituency ; (iv) * My name has not already been included in
 the electoral roll for this or any other assembly constituency;</p>
 Or<br/>
-<p>* My name may have been included in the electoral roll for ………………………………….
+<p>* My name may have been included in the electoral roll for<%IF p.FormType == '8'%><%PROCESS b var=p.Assembly_Constituency%><%ELSE%> ………………………………….<%END%>
 Constituency in ……………………. State in which I was ordinarily resident earlier at the
 address mentioned below and, if so, I request that the same may be deleted from that electoral
 roll.</p>
 Full Address (Earlier place of ordinary residence):<br/>
-Electors photo identity card (if issued) number:<br/>
-………………: date of issue…………….<br/>
+Electors photo identity card (if issued) number:………………:<br/>  date of issue…………….<br/>
 Place: <br/>Date: <br/>Signature or thumb impression of the claimant<br/>
 <p>Note- Any person who makes a statement or declaration which is false and which he either knows or
 believes to be false or does not believe to be true, is punishable under section 31 of the Representation of
 the People Act, 1950 (43 of 1950).</p>
 Details of action taken<br/>
 (To be filled by Electoral Registration Officer of the constituency)<br/>
-<p>The application of Shri/Smt./Km………………………………………………………………… for
+<p>The application of Shri/Smt./Km <%PROCESS b var=p.Name%> for
 inclusion of name in the electoral roll in Form 6 has been accepted*/rejected*.</p>
 Detailed reasons for * acceptance [under or in pursuance of rule 18*/20*/ 26(4)]£ or
 *rejection [under or in pursuance of rule 17*/20*/ 26(4)£ ]:<br/>
 Place: Signature of (Seal of the Electoral<br/>
 Date: Electoral Registration Officer Registration Officer)<br/>
 III. Details of member(s) of applicant’s family already included in the current<br/>
-<table><tr><td>electoral roll of the Constituency:</td><td>Name </td><td>Relationship with applicant </td><td>Part number of the roll of the Constituency </td><td>Serial number in that Part </td><td>Elector’s Photo Identity Card Number</td></tr>
-1.<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
-1.<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
-1.<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
-1.<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+<table border="1"><tr><td>electoral roll of the Constituency:</td><td>Family Members Name </td><td>Relationship with applicant </td><td>Part number of the roll of the Constituency </td><td>Serial number in that Part </td><td>Elector’s Photo Identity Card Number</td></tr>
+<tr><td>* </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+<tr><td>* </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+<tr><td>* </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+<tr><td>* </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
 </table>
 <%END%>
 <hr/>
 <hr/>
-<hr/>
-<hr/>
+<center>...(Cut Here)...</center>
 </div>

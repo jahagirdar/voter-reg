@@ -29,6 +29,11 @@ template: "template_toolkit"
 
 plugins:
         Database:
-                driver: 'SQLite'
-                database: 'voters.sqlite'
+                connections:
+                        existing:
+                                driver: 'SQLite'
+                                database: 'existing_voters.sqlite'
+                        new:
+                                driver: 'SQLite'
+                                database: 'voters.sqlite'
 session: "YAML"

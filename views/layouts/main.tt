@@ -14,16 +14,24 @@
 
 </head>
 <body>
+<div id='sidebar'>
+	<ul>
+		<li><a href='/excel_format'>Sample Format</a></li>
+		<li><a href='/'> Start</a></li>
+		<li><a href='/voter/'>Voter List</a></li>
+		<li><a href='/rwa/'>Upload data from RWA</a></li>
+		<br/>
+		<br/>
+		<br/>
+		<li><a href='/newdb'> New Database(Careful this will destroy all existing data)</a></li>
+	</ul>
+</div>
 <% content %>
 <div id="footer">
-	<a href='/'> Start</a>
-	<a href='/voter/'>Voter List</a>
-	<a href='/rwa/'>Upload data from RWA</a>
 
 
 
-	<a href='/newdb'> New Database(Careful this will destroy all existing data)</a>
-Powered by <a href="http://perldancer.org/">Dancer</a> <% dancer_version %>
+	Created by <a href="http://smartvote.in">Smartvote.in</a>
 </div>
 </body>
 </html>

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-
+/javascripts/autocomplete/demo/index.html
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>jQuery autocompleter</title>
-    <link rel="stylesheet" type="text/css" href="../src/jquery.autocomplete.css">
+    <link rel="stylesheet" type="text/css" href="/javascripts/autocomplete/src/jquery.autocomplete.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script type="text/javascript" src="../src/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="/javascripts/autocomplete/src/jquery.autocomplete.js"></script>
     <script type="text/javascript">
 
 $(function() {
 
-    $("#ac1").autocomplete('search.php', {
+    $("#ac1").autocomplete('/voter/find', {
         minChars: 3,
     });
 
@@ -25,7 +25,7 @@ $(function() {
     });
 
     $("#ac2").autocomplete({
-        url: 'search.php?output=json',
+        url: '/voter/find?output=json',
         sortFunction: function(a, b, filter) {
             var f = filter.toLowerCase();
             var fl = f.length;
@@ -70,12 +70,12 @@ $(function() {
     });
 
     $("#ac4").autocomplete({
-        url: 'search.php',
+        url: '/voter/find',
         useCache: false,
         filterResults: false
     });
 
-    $("#ac5").autocomplete('search.php', {
+    $("#ac5").autocomplete('/voter/find', {
         minChars: 1,
         useDelimiter: true,
         selectFirst: true,
@@ -86,7 +86,7 @@ $(function() {
         $("#hide").toggle(); // To test repositioning
     });
 
-    $("#ac6").autocomplete('search.php?output=json', {
+    $("#ac6").autocomplete('/voter/find?output=json', {
         remoteDataType: 'json',
         processData: function(data) {
 			var i, processed = [];

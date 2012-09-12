@@ -1,8 +1,11 @@
 <div id="content">
+<div id='header'>
+<h1>List of All voters in this RWA</h1>
+</div>
 <table><tr>
 <%FOREACH p IN cfg%>
 <%IF loop.count % 4 == 3 %></tr><tr><%END%>
-<td><a href='/voter/edit/<%p.id%>'><%p.Name%> <%p.Middle_Name%> <%p.Family_Name%> </td>
+<td><%p.Name%> <%p.Middle_Name%> <%p.Family_Name%> <a href='/voter/edit/<%p.id%>'>Edit</a> <a href='/voter/print/<%p.id%>'>Print</a> <a href='/voter/new/<%p.id%>'>Copy</a> </td>
 <%END%>
 </table>
 </div>
