@@ -5,9 +5,15 @@ use Data::Dumper;
 our $VERSION = '0.1';
 use Dancer::Plugin::Database;
 use CGI::FormBuilder;
+hook 'database_error'=>sub{
+	my $msg=shift;
+	debug $msg;
+};
 get '/newdb' => sub{
 	my $time=localtime;
 	#if ( -e 'voters.sqlite'){ `mv voters.sqlite voters.sqlite.$time`;`touch voters.sqlite`;}
+	my $sth=database->prepare('drop table if exists [details]');
+	$sth->execute();
 	my $sth=database->prepare('CREATE TABLE [details] ( 
 		[id] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
 		[Name] TEXT  NULL,
@@ -34,7 +40,7 @@ get '/newdb' => sub{
 		[PreviousIDNumber] TEXT  NULL,
 		[email] TEXT  NULL,
 		[phone] TEXT  NULL,
-		[verified] Boolean  NULL,
+		[verified] Boolean  NULL
 		)') or debug $?;
 	debug Dumper($sth);
 	$sth->execute();
@@ -138,7 +144,8 @@ get '/voter/:mode/:id'=>sub {
 			title=>"Edit Records for ".$candidate->{'Name'},
 			method=>'GET',
 			action =>$actionurl,
-			values=>$candidate
+			values=>$candidate,
+			jshead=>'$("#PreviousIDNumber").autocomplete({ url: "/voter/find/", minChars: 3});'
 	);
 	if ($form->submitted && $form->validate) {
 		my$flds=$form->fields;
@@ -152,6 +159,11 @@ get '/voter/:mode/:id'=>sub {
 
 	my $template_engine = engine 'template';
 	$template_engine->apply_layout($form->render);
+};
+use Dancer::Plugin::Ajax;
+ajax '/voter/find/'=>sub{
+	debug "Ajax Called";
+	return qw(1111 1112 11113 11114 11115 11116 11117 11118);
 };
 any ['get'] =>'/rwa/' =>sub{
 	my $prefix_setting = Dancer::App->current->prefix || '';

@@ -1,5 +1,6 @@
 
       <div id="content">
+<h1>Form <%IF p.FormType == 'New'%>6<%ELSIF p.FormType == 'Relocate_same'%>8-A<%ELSE%>7<%END%></h1>
 <%FOREACH p IN cfg%>
 <h1>“FORM 6”Application for inclusion of name in electoral roll</h1>
 [See rules 13(1) and 26]
@@ -13,13 +14,13 @@ I request that my name be included in the electoral roll for the above Constitue
 </p>
 <table>
 <tr><td>Name</td><td>Fathers Name</td><td>Surname</td></tr>
-<tr><b><td><%p.Name%></td><td><%p.Middle_Name%></td><td><%p.Family_Name%></td></b></tr>
+<tr><td><b><%p.Name%></b></td><td><b><%p.Middle_Name%></b></td><td><b><%p.Family_Name%></b></td></tr>
 </table>
 <h2>I. Applicant’s details</h2>
 <table>
-<tr><td>Age as on 1st January 2012</td><td>Years</td><td>Months</td></tr>
+<tr><td>Age as on 1st January 2012<b>TBD</b></td><td>Years<b>TBD</b></td><td>Months<b>TBD</b></td></tr>
 <tr><td>Date of Birth(YYYY-MM-DD) <b><%p.DOB%></b></td></tr>
-<tr><td>Sex <%p.Sex%></td></tr>
+<tr><td>Sex <b><%p.Sex%></b></td></tr>
 <tr><td>Place of Birth: </td><td>Village/Town:</td><td>District :</td><td>State:</td></tr>
 <tr><b><td>                </td><td><%p.Birth_Town%></td><td><%p.Birth_District%></td><td><%p.Birth_State%></td></b></tr>
 <tr><td></td><td></td><td></td><td></td></tr>
@@ -76,13 +77,6 @@ III. Details of member(s) of applicant’s family already included in the curren
 1.<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
 1.<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
 </table>
-<h1>Form <%IF p.FormType == 'New'%>6<%ELSIF p.FormType == 'Relocate_same'%>8-A<%ELSE%>7<%END%></h1>
-<table>
-<tr><td>Name</td><td><%p.Name%></td><td><%p.Middle_Name%></td><td><%p.Family_Name%></td> </tr>
-<tr><td>Sex</td><td><%p.Sex%></td></tr>
-<tr><td>Address</td><td><%p.Address%></td></tr>
-<tr><td>Date of Birth</td><td><%p.DOB%></td></tr>
-<tr><td>Place of Birth</td><td><%p.Birth_Town%> <%p.Birth_District%> <%p.Birth_State%></td></tr>
 <%END%>
 <hr/>
 <hr/>

@@ -4,9 +4,9 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME                => 'smartVote',
-    AUTHOR              => q{YOUR NAME <youremail@example.com>},
+    AUTHOR              => q{YOUR NAME <jahagirdar.vs@gmail.com>},
     VERSION_FROM        => 'lib/smartVote.pm',
-    ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
+    ABSTRACT            => 'Bulk Voter Registeration',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'perl')
       : ()),
