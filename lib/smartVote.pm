@@ -182,23 +182,56 @@ get '/voter/:mode/:id'=>sub {
 		   my $db=database('new');
 	if (params->{mode} eq 'print'){
 	my $candidate=$db->quick_select('details',{id=>params->{id}});
-	return template 'candidate' ,{cfg=>[$candidate]};
+	use Time::Piece;
+	use Time::Seconds;
+	 my $t = Time::Piece->strptime($candidate->{'DOB'}, "%F");
+	 my $now = Time::Piece->strptime("2012-01-01", "%F");
+	 my $sec=$now-$t;
+	 my $time->{years}=int $sec->years;
+	  $sec=$sec-(ONE_YEAR *$time->{years});
+	   $time->{months}=int $sec->months;
+	   my ($yy,$mm,$dd)=split '-',$candidate->{'DOB'};
+	   $time->{yy}=$yy;
+	   $time->{mm}=$mm;
+	   $time->{dd}=$dd;
+
+	return template 'form6' ,{cfg=>[$candidate],sec=>$time},{layout=>0};
 	}
 
 	my $prefix_setting = Dancer::App->current->prefix || '';
 	my $actionurl=$prefix_setting.'';
 		my $candidate=$db->quick_select('details',{id=>params->{id}});
 		my @fields=keys %$candidate;
+@fields= qw(id Name Middle_Name Family_Name DOB Birth_Town Birth_District Birth_State Relation_Type Relation_Name Relation_Sirname Door_number Apartment_Name Street Town Post_office Taluka District Pincode Assembly_Constituency Sex FormType PreviousIDNumber email phone);
+
+
+		if( $candidate->{Verified}){
+			$candidate->{Verified}='checked';
+		}else{
+			$candidate->{Verified}='No';
+		}
 		my$form=CGI::FormBuilder->new(
 			fields=>[@fields],
 			title=>"Edit Records for ".$candidate->{'Name'},
 			method=>'GET',
 			action =>$actionurl,
 			values=>$candidate,
-			jshead=>'$("#PreviousIDNumber").autocomplete({ url: "/voter/find/", minChars: 3});'
-	);
+			jshead=>'$("#PreviousIDNumber").autocomplete({ url: "/voter/find/", minChars: 3});',
+			template => {
+				type => 'TT2',
+				template => 'form.tpl',
+				variable => 'form'
+			}
+		);
+	$form->field(name=>'Verified',type=>'checkbox',options=>[qw(Yes)],checked=>$candidate->{Verified});
 	if ($form->submitted && $form->validate) {
+		debug params->{Verified};
 		my$flds=$form->fields;
+		if( params->{Verified}){
+			$flds->{Verified}=1;
+		}else{
+			$flds->{Verified}=0;
+		}
 	if(params->{mode} eq 'new'){
 		$db->quick_insert('details',$flds);
 	}elsif(params->{mode} eq 'edit') {

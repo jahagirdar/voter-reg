@@ -71,37 +71,28 @@ color:black'> rules 13(1) and 26]</span></p>
   <td width=448 colspan=12 valign=top style='width:336.0pt;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:11.25pt'>
   <p class=MsoNormal style='text-autospace:none'><b><i><span style='font-size:
-  15.0pt;color:black'>          </span></i></b><span style='font-size:11.0pt'>To</span></p>
+  15.0pt;color:black'></span></i></b><span style='font-size:11.0pt'>To</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>The
   Electoral Registration Officer</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'><%PROCESS b var=p.Assembly_Constituency%>
-  Assembly/ Parliamentary </span><span style='font-size:10.5pt'>£ </span><span
-  style='font-size:11.0pt'>Constituency.</span></p>
+  Assembly/ Parliamentary Constituency.</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Sir,</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>I
-  request that my name be included in the electoral roll for the above</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Constituency.
-  Particulars in support of my claim for inclusion in the electoral</span></p>
-  <p class=MsoNormal><span style='font-size:11.0pt'>roll are given below</span></p>
+  request that my name be included in the electoral roll for the above Constituency.
+  Particulars in support of my claim for inclusion in the electoral roll are given below</span></p>
   </td>
   <td width=190 colspan=2 valign=top style='width:142.8pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:11.25pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
-  font-family:"Arial","sans-serif"'>SPACE FOR PASTING</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
-  font-family:"Arial","sans-serif"'>ONE RECENT</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
-  font-family:"Arial","sans-serif"'>PASSPORT SIZE</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
-  font-family:"Arial","sans-serif"'>PHOTOGRAPH</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
+  font-family:"Arial","sans-serif"'>SPACE FOR PASTING ONE RECENT PASSPORT SIZE PHOTOGRAPH</span></p>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
   font-family:"Arial","sans-serif"'>(3.5 CM X 3.5 CM)</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
   font-family:"Arial","sans-serif"'>SHOWING FRONTAL</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
   font-family:"Arial","sans-serif"'>VIEW OF FULL FACE</span></p>
-  <p class=MsoNormal><span style='font-size:7.0pt;font-family:"Arial","sans-serif"'>WITHIN
+  <p class=MsoNormal><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>WITHIN
   THIS BOX</span></p>
   </td>
  </tr>
@@ -109,7 +100,7 @@ color:black'> rules 13(1) and 26]</span></p>
   <td width=124 rowspan=2 valign=top style='width:93.0pt;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:16.5pt'>
   <p class=MsoNormal style='text-autospace:none'><b><span style='font-size:
-  11.0pt'>I. Applicant’s</span></b></p>
+  11.0pt'>I. Applicant's</span></b></p>
   <p class=MsoNormal style='text-autospace:none'><b><span style='font-size:
   11.0pt'>details</span></b></p>
   </td>
@@ -129,13 +120,13 @@ color:black'> rules 13(1) and 26]</span></p>
   <td width=242 colspan=8 valign=top style='width:181.5pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
   font-family:"Arial","sans-serif"'><%PROCESS b var=p.Name%></span></p>
   </td>
   <td width=272 colspan=5 valign=top style='width:204.3pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:7.0pt;
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
   font-family:"Arial","sans-serif"'><%PROCESS b var=p.Family_Name%></span></p>
   </td>
  </tr>
@@ -143,7 +134,7 @@ color:black'> rules 13(1) and 26]</span></p>
   <td width=187 colspan=3 valign=top style='width:140.25pt;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Age
-  as on 1</span><span style='font-size:8.0pt'>st </span><span style='font-size:
+  as on 1</span><span style='font-size:11.0pt'>st </span><span style='font-size:
   11.0pt'>January <b> 2012 </b></span></p>
   </td>
   <td width=93 colspan=2 valign=top style='width:69.75pt;border-top:none;
@@ -221,10 +212,10 @@ style='font-size:11.0pt'>State:<%PROCESS b var=p.Birth_State%></span></p>
   <td width=187 colspan=3 rowspan=2 valign=top style='width:140.25pt;
   border:solid windowtext 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;
   height:18.45pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Father’s/</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Mother’s/
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Father's/</span></p>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Mother's/
   Name</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Husband’s</span></p>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Husband's(<%PROCESS b var=p.Relation_Type%>)</span></p>
   </td>
   <td width=179 colspan=6 valign=top style='width:134.25pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
@@ -314,10 +305,8 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   <td width=638 colspan=14 valign=top style='width:6.65in;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><b><span style='font-size:
-  11.0pt'>III. Details of member(s) of applicant’s family already included in
-  the current electoral roll of the</span></b></p>
-  <p class=MsoNormal style='text-autospace:none'><b><span style='font-size:
-  11.0pt'>Constituency</span></b><span style='font-size:11.0pt'>:</span></p>
+  11.0pt'>III. Details of member(s) of applicant's family already included in
+  the current electoral roll of the Constituency</span></b><span style='font-size:11.0pt'>:</span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
@@ -352,7 +341,7 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   <td width=118 valign=top style='width:88.8pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Elector’s
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Elector's
   Photo</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Identity
   Card</span></p>
@@ -422,7 +411,7 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   font-family:"Arial","sans-serif"'>(i) I am a citizen of India;</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
   font-family:"Arial","sans-serif"'>(ii) I am ordinarily resident at the
-  address given in para II above since ………..(date,month, year)</span></p>
+  address given in para II above since ...............(date,month, year)</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
   font-family:"Arial","sans-serif"'>(iii) I have not applied for the inclusion
   of my name in the electoral roll for any other constituency;</span></p>
@@ -516,16 +505,14 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>The
   application of</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Shri/Smt./Km
-  <%PROCESS b var=p.Name%> <%PROCESS b var=p.Family_Name%> for inclusion of</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>name
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'><%IF p.Sex == 'M'%>Shri<%ELSE%>Smt./Km<%END%>
+  <%PROCESS b var=p.Name%> <%PROCESS b var=p.Family_Name%> for inclusion of name
   in the electoral roll in Form 6 has been accepted*/rejected*.</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Detailed
-  reasons for *acceptance [under or in pursuance of rule 18*/20*/26(4)]</span><span
-  style='font-size:10.5pt'>£ </span><span style='font-size:11.0pt'>or*
+  reasons for *acceptance [under or in pursuance of rule 18*/20*/26(4)]</span><span style='font-size:11.0pt'>or*
   rejection [under</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>or
-  in pursuance of rule 17/20*/26(4)</span><span style='font-size:10.5pt'>£</span><span
+  in pursuance of rule 17/20*/26(4)</span><span
   style='font-size:11.0pt'>]:</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>&nbsp;</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>&nbsp;</span></p>
@@ -603,32 +590,33 @@ style='font-family:Times-BoldItalic'>&nbsp;</span></i></b></p>
 
 <p class=MsoNormal style='text-autospace:none'><b><i><span style='font-family:
 Times-BoldItalic'>Receipt for Application</span></i></b></p>
-
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'><tr><td  width=638 colspan=14 valign=top style='width:3.65in;border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:21.0pt'>
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
 font-family:Times-Roman'>Received the application in </span><b><span
 style='font-size:11.5pt;font-family:Times-Bold'>Form 6 </span></b><span
-style='font-size:11.5pt;font-family:Times-Roman'>of ** Shri/Shrimati/Kumari <%PROCESS b var=p.Name%>
+style='font-size:11.5pt;font-family:Times-Roman'>of  <%IF p.Sex == 'M'%>Shri<%ELSE%>Shrimati/Kumari<%END%> <%PROCESS b var=p.Name%>
 <%PROCESS b var=p.Family_Name%></span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
-font-family:Times-Roman'>**
-Address....................................................................................................................................</span></p>
+font-family:Times-Roman'>
+Address: <%PROCESS b var=p.Door_number%>, <%PROCESS b var=p.Apartment_Name%>,<br/><%PROCESS b var=p.Street%>,<br/><%PROCESS b var=p.Town%>,<br/><%PROCESS b var=p.Post_office%>, <%PROCESS b var=p.Pincode%>,<br/><%PROCESS b var=p.Taluka%>, <%PROCESS b var=p.District%></span></p>
+
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
-font-family:Times-Roman'>...............................................................................................</span></p>
-
+font-family:Times-Roman'><br/>Date: ........................</span></p>
+</td><td width=638 colspan=14 valign=top style='width:3.65in;border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:21.0pt'>
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
-font-family:Times-Roman'>Date: ........................</span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
-font-family:Times-Roman'>Signature of the officer receiving the Application on</span></p>
+font-family:Times-Roman'><br/><br/><br/>Signature of the officer receiving the Application on</span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
 font-family:Times-Roman'>behalf of the Electoral Registration Officer,</span></p>
 
 <p class=MsoNormal><span style='font-size:11.5pt;font-family:Times-Roman'>(Address):....................................
 ..</span></p>
-
+</td></tr></table>
 </div>
 
 </body>
