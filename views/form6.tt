@@ -1,8 +1,16 @@
-<%BLOCK b%> <b><%var%></b><%END%>
+<%BLOCK b%> <strong <%IF field !=''%>class='edit' id='<%field%>'<%END%> ><%var%></strong><%END%>
 <%FOREACH p IN cfg%>
 <html>
 
 <head>
+    <script src="<%request.uri_base%>/javascripts/jquery.js"></script>
+    <script src="<%request.uri_base%>/javascripts/jquery.jeditable.mini.js"></script>
+<script type="text/javascript">/* <![CDATA[ */
+ $(document).ready(function() {
+     $('.edit').editable('<%request.uri_base%>/voter/edit/<%cfg.0.id%>',{
+indicator:'Saving'});
+ });
+/* ]]> */</script>
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
 <meta name=Generator content="Microsoft Word 12 (filtered)">
 <style>
@@ -74,7 +82,7 @@ color:black'> rules 13(1) and 26]</span></p>
   15.0pt;color:black'></span></i></b><span style='font-size:11.0pt'>To</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>The
   Electoral Registration Officer</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'><%PROCESS b var=p.Assembly_Constituency%>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'><%PROCESS b var=p.Assembly_Constituency field='Assembly_Constituency'%>
   Assembly/ Parliamentary Constituency.</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Sir,</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>I
@@ -121,13 +129,13 @@ color:black'> rules 13(1) and 26]</span></p>
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
-  font-family:"Arial","sans-serif"'><%PROCESS b var=p.Name%></span></p>
+  font-family:"Arial","sans-serif"'><%PROCESS b var=p.Name field='Name'%></span></p>
   </td>
   <td width=272 colspan=5 valign=top style='width:204.3pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt;
-  font-family:"Arial","sans-serif"'><%PROCESS b var=p.Family_Name%></span></p>
+  font-family:"Arial","sans-serif"'><%PROCESS b var=p.Family_Name field='Family_Name'%></span></p>
   </td>
  </tr>
  <tr style='height:10.05pt'>
@@ -140,18 +148,18 @@ color:black'> rules 13(1) and 26]</span></p>
   <td width=93 colspan=2 valign=top style='width:69.75pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Years:<%PROCESS b var=sec.years%></span></p>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Years:<%PROCESS b var=sec.years field=''%></span></p>
   </td>
   <td width=86 colspan=4 valign=top style='width:64.5pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Months:<%PROCESS b var=sec.months%></span></p>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Months:<%PROCESS b var=sec.months field=''%></span></p>
   </td>
   <td width=272 colspan=5 valign=top style='width:204.3pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Sex
-  (male/female/others):<%PROCESS b var=p.Sex%></span></p>
+  (male/female/others):<%PROCESS b var=p.Sex field='Sex'%></span></p>
   </td>
  </tr>
  <tr style='height:10.05pt'>
@@ -164,19 +172,19 @@ color:black'> rules 13(1) and 26]</span></p>
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span
-style='font-size:11.0pt'>Day:<%PROCESS b var=sec.dd%></span></p>
+style='font-size:11.0pt'>Day:<%PROCESS b var=sec.dd field='day'%></span></p>
   </td>
   <td width=86 colspan=4 valign=top style='width:64.5pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span
-style='font-size:11.0pt'>Month:<%PROCESS b var=sec.mm%></span></p>
+style='font-size:11.0pt'>Month:<%PROCESS b var=sec.mm field='month'%></span></p>
   </td>
   <td width=272 colspan=5 valign=top style='width:204.3pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span
-style='font-size:11.0pt'>Year:<%PROCESS b var=sec.yy%></span></p>
+style='font-size:11.0pt'>Year:<%PROCESS b var=sec.yy field='year'%></span></p>
   </td>
  </tr>
  <tr style='height:10.05pt'>
@@ -191,7 +199,7 @@ style='font-size:11.0pt'>Year:<%PROCESS b var=sec.yy%></span></p>
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Village/
-  Town:<%PROCESS b var=p.Birth_Town%></span></p>
+  Town:<%PROCESS b var=p.Birth_Town field='Birth_Town'%></span></p>
   </td>
  </tr>
  <tr style='height:10.05pt'>
@@ -199,13 +207,13 @@ style='font-size:11.0pt'>Year:<%PROCESS b var=sec.yy%></span></p>
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span
-style='font-size:11.0pt'>District:<%PROCESS b var=p.Birth_District%></span></p>
+style='font-size:11.0pt'>District:<%PROCESS b var=p.Birth_District field='Birth_District'%></span></p>
   </td>
   <td width=272 colspan=5 valign=top style='width:204.3pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:10.05pt'>
   <p class=MsoNormal style='text-autospace:none'><span
-style='font-size:11.0pt'>State:<%PROCESS b var=p.Birth_State%></span></p>
+style='font-size:11.0pt'>State:<%PROCESS b var=p.Birth_State field='Birth_State'%></span></p>
   </td>
  </tr>
  <tr style='height:18.45pt'>
@@ -215,7 +223,7 @@ style='font-size:11.0pt'>State:<%PROCESS b var=p.Birth_State%></span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Father's/</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Mother's/
   Name</span></p>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Husband's(<%PROCESS b var=p.Relation_Type%>)</span></p>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Husband's(<%PROCESS b var=p.Relation_Type field='Relation_Type'%>)</span></p>
   </td>
   <td width=179 colspan=6 valign=top style='width:134.25pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
@@ -234,13 +242,13 @@ style='font-size:11.0pt'>State:<%PROCESS b var=p.Birth_State%></span></p>
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span
-style='font-size:11.0pt'><%PROCESS b var=p.Relation_Name%></span></p>
+style='font-size:11.0pt'><%PROCESS b var=p.Relation_Name field='Relation_Name'%></span></p>
   </td>
   <td width=272 colspan=5 valign=top style='width:204.3pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span
-style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
+style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname field='Relation_Sirname'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
@@ -254,7 +262,7 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   <td width=638 colspan=14 valign=top style='width:6.65in;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>House/
-  Door number:<%PROCESS b var=p.Door_number%>, <%PROCESS b var=p.Apartment_Name%></span></p>
+  Door number:<%PROCESS b var=p.Door_number field='Door_number'%>, <%PROCESS b var=p.Apartment_Name field='Apartment_Name'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
@@ -263,27 +271,27 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Street/
   Area/Locality/</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Mohalla/Road:
-  <%PROCESS b var=p.Street%></span></p>
+  <%PROCESS b var=p.Street field='Street'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
   <td width=638 colspan=14 valign=top style='width:6.65in;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Town/
-  Village:<%PROCESS b var=p.Town%></span></p>
+  Village:<%PROCESS b var=p.Town field='Town'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
   <td width=320 colspan=8 valign=top style='width:240.0pt;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Post
-  Office:<%PROCESS b var=p.Post_office%></span></p>
+  Office:<%PROCESS b var=p.Post_office field='Post_office'%></span></p>
   </td>
   <td width=318 colspan=6 valign=top style='width:238.8pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Pin
-  Code:<%PROCESS b var=p.Pincode%></span></p>
+  Code:<%PROCESS b var=p.Pincode field='Pincode'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
@@ -292,13 +300,13 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Tehsil/
   Taluka/</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Mandal/
-  Thana:<%PROCESS b var=p.Taluka%></span></p>
+  Thana:<%PROCESS b var=p.Taluka field='Taluka'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
   <td width=638 colspan=14 valign=top style='width:6.65in;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
-  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>District:<%PROCESS b var=p.District%></span></p>
+  <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>District:<%PROCESS b var=p.District field='District'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
@@ -476,13 +484,13 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   <td width=305 colspan=7 valign=top style='width:228.75pt;border:solid windowtext 1.0pt;
   border-top:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Mobile
-  number:<%PROCESS b var=p.phone%></span></p>
+  number:<%PROCESS b var=p.phone field='phone'%></span></p>
   </td>
   <td width=333 colspan=7 valign=top style='width:250.05pt;border-top:none;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0in 5.4pt 0in 5.4pt;height:18.75pt'>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>E-mail
-  ID:<%PROCESS b var=p.email%></span></p>
+  ID:<%PROCESS b var=p.email field='email'%></span></p>
   </td>
  </tr>
  <tr style='height:18.75pt'>
@@ -506,7 +514,7 @@ style='font-size:11.0pt'><%PROCESS b var=p.Relation_Sirname%></span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>The
   application of</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'><%IF p.Sex == 'M'%>Shri<%ELSE%>Smt./Km<%END%>
-  <%PROCESS b var=p.Name%> <%PROCESS b var=p.Family_Name%> for inclusion of name
+  <%PROCESS b var=p.Name field='Name'%> <%PROCESS b var=p.Family_Name field='Family_Name'%> for inclusion of name
   in the electoral roll in Form 6 has been accepted*/rejected*.</span></p>
   <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.0pt'>Detailed
   reasons for *acceptance [under or in pursuance of rule 18*/20*/26(4)]</span><span style='font-size:11.0pt'>or*
@@ -596,12 +604,12 @@ Times-BoldItalic'>Receipt for Application</span></i></b></p>
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
 font-family:Times-Roman'>Received the application in </span><b><span
 style='font-size:11.5pt;font-family:Times-Bold'>Form 6 </span></b><span
-style='font-size:11.5pt;font-family:Times-Roman'>of  <%IF p.Sex == 'M'%>Shri<%ELSE%>Shrimati/Kumari<%END%> <%PROCESS b var=p.Name%>
-<%PROCESS b var=p.Family_Name%></span></p>
+style='font-size:11.5pt;font-family:Times-Roman'>of  <%IF p.Sex == 'M'%>Shri<%ELSE%>Shrimati/Kumari<%END%> <%PROCESS b var=p.Name field='Name'%>
+<%PROCESS b var=p.Family_Name field='Family_Name'%></span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;
 font-family:Times-Roman'>
-Address: <%PROCESS b var=p.Door_number%>, <%PROCESS b var=p.Apartment_Name%>,<br/><%PROCESS b var=p.Street%>,<br/><%PROCESS b var=p.Town%>,<br/><%PROCESS b var=p.Post_office%>, <%PROCESS b var=p.Pincode%>,<br/><%PROCESS b var=p.Taluka%>, <%PROCESS b var=p.District%></span></p>
+Address: <%PROCESS b var=p.Door_number field='Door_number'%>, <%PROCESS b var=p.Apartment_Name field='Apartment_Name'%>,<br/><%PROCESS b var=p.Street field='Street'%>,<br/><%PROCESS b var=p.Town field='Town'%>,<br/><%PROCESS b var=p.Post_office field='Post_office'%>, <%PROCESS b var=p.Pincode field='Pincode'%>,<br/><%PROCESS b var=p.Taluka field='Taluka'%>, <%PROCESS b var=p.District field='District'%></span></p>
 
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:11.5pt;

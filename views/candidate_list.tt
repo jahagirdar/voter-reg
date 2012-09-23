@@ -4,8 +4,8 @@
 </div>
 <table><tr>
 <%FOREACH p IN cfg%>
-<%IF loop.count % 4 == 3 %></tr><tr><%END%>
-<td><%p.Name%> <%p.Middle_Name%> <%p.Family_Name%> <a href='/voter/edit/<%p.id%>'>Edit</a> <a href='/voter/print/<%p.id%>'>Print</a> <a href='/voter/new/<%p.id%>'>Copy</a> </td>
+<%IF loop.count % 2 == 1 %></tr><tr><%END%>
+<td><%p.Name%> <%p.Middle_Name%> <%p.Family_Name%>  <a href='/voter/print/<%p.id%>'>Edit/Print</a> <a href='/voter/new/<%p.id%>'>Copy</a> </td>
 <%END%>
 </table>
 </div>

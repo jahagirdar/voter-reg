@@ -178,6 +178,31 @@ get '/voter/' =>sub{
 	return template 'candidate_list' ,{cfg=>\@candidates };
 
 };
+post '/voter/edit/:mode'=>sub {
+	debug params;
+	my $db=database('new');
+	my$f=params->{id};
+	if (map {$f eq $_} qw(year month day)){
+	my $candidate=$db->quick_select('details',{id=>params->{id}});
+	   my ($yy,$mm,$dd)=split '-',$candidate->{'DOB'};
+	   $yy=params->{value} if ($f eq 'year');
+	   $mm=params->{value} if ($f eq 'month');
+	   $dd=params->{value} if ($f eq 'day');
+	$db->quick_update('details',{id=>params->{mode}},{DOB=>"$yy-$mm-$dd"});
+}else{
+
+	$db->quick_update('details',{id=>params->{mode}},{params->{id}=>params->{value}});
+}
+	return params->{value};
+};
+get '/voter/new/:id' =>sub{
+		   my $db=database('new');
+		   my $flds=$db->quick_select('details',{id=>params->{id}});
+		delete $flds->{'id'};
+		$flds->{'Name'}.=int rand(10000);
+		$db->quick_insert('details',$flds);
+		redirect '/voter/print/'.$db->quick_lookup('details',{Name=>$flds->{'Name'}},'id');
+};
 get '/voter/:mode/:id'=>sub {
 		   my $db=database('new');
 	if (params->{mode} eq 'print'){
@@ -233,7 +258,10 @@ get '/voter/:mode/:id'=>sub {
 			$flds->{Verified}=0;
 		}
 	if(params->{mode} eq 'new'){
+		delete $flds->{'id'};
+		$flds->{'Name'}.=int rand(10000);
 		$db->quick_insert('details',$flds);
+		redirect '/voter/print/'.$db->quick_lookup('details',{Name=>$flds->{'Name'}},'id');
 	}elsif(params->{mode} eq 'edit') {
 		$db->quick_update('details',{id=>params->{id}},$flds);
 	}
