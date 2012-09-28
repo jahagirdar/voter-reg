@@ -16,14 +16,14 @@
 <body>
 <div id='sidebar'>
 	<ul>
-		<li><a href='/excel_format'>Sample Format</a></li>
-		<li><a href='/'> Start</a></li>
-		<li><a href='/voter/'>Voter List</a></li>
-		<li><a href='/rwa/'>Upload data from RWA</a></li>
+		<li><a href='<% request.uri_base %>/excel_format'>Sample Format</a></li>
+		<li><a href='<% request.uri_base %>/'> Start</a></li>
+		<li><a href='<% request.uri_base %>/voter/'>Voter List</a></li>
+		<li><a href='<% request.uri_base %>/rwa/'>Upload data from RWA</a></li>
 		<br/>
 		<br/>
 		<br/>
-		<li><a href='/newdb'> New Database(Careful this will destroy all existing data)</a></li>
+		<li><a href='<% request.uri_base %>/newdb'> New Database(Careful this will destroy all existing data)</a></li>
 	</ul>
 </div>
 <% content %>

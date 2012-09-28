@@ -5,7 +5,7 @@
 <table><tr>
 <%FOREACH p IN cfg%>
 <%IF loop.count % 2 == 1 %></tr><tr><%END%>
-<td><%p.Name%> <%p.Middle_Name%> <%p.Family_Name%>  <a href='/voter/print/<%p.id%>'>Edit/Print</a> <a href='/voter/new/<%p.id%>'>Copy</a> </td>
+<td><%p.Name%> <%p.Middle_Name%> <%p.Family_Name%>  <a href='<% request.uri_base %>//voter/print/<%p.id%>'>Edit/Print</a> <a href='<% request.uri_base %>//voter/new/<%p.id%>'>Copy</a> </td>
 <%END%>
 </table>
 </div>
