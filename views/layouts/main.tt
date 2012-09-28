@@ -15,14 +15,56 @@
 </head>
 <body>
 <div id='sidebar'>
+        <ul id="sidebar-items">
+          <li>
+            <h3>Voter Registeration</h3>
+            <ul class="links">
+
+              <li><a href="http://perldancer.org/">Contact US</a></li>
+              <li><a href="http://twitter.com/PerlDancer/">Success stories</a></li>
+              <li><a href="http://github.com/sukria/Dancer/">Check Your Status</a></li>
+            </ul>
+          </li>
+          
+          <li>
+            <h3>Bulk Registeration</h3>
+
+            <ul class="links">
+              <li><a
+              href="">Apartment
+Complex</a></li>
+              <li><a
+href="http://search.cpan.org/dist/Dancer/lib/Dancer/Cookbook.pod">Layouts</a></li>
+              <li><a
+href="http://search.cpan.org/dist/Dancer/lib/Dancer/Deployment.pod">Colleges</a></li>
+              <li><a
+              href="http://search.cpan.org/dist/Dancer/lib/Dancer/Tutorial.pod"
+              title="a tutorial to build a small blog engine with
+Dancer">Offices</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <h3>Active Democracy</h3>
+
+            <ul>
+                <li>Know your Neta</li>
+                <li>Role of an MP</li>
+                <li>Role of an MLA</li>
+                <li>Role of a Corporator</li>
+            </ul>
+
+          </li>
+        </ul>
+
 	<ul>
-		<li><a href='<% request.uri_base %>/excel_format'>Sample Format</a></li>
-		<li><a href='<% request.uri_base %>/'> Start</a></li>
-		<li><a href='<% request.uri_base %>/voter/'>Voter List</a></li>
+		<li><a href='<% request.uri_base %>/excel_format'>Sample XLS Format</a></li>
+		<li><a href='<% request.uri_base %>/rwa/add'>Initialize RWA</a></li>
 		<li><a href='<% request.uri_base %>/rwa/'>Upload data from RWA</a></li>
-		<br/>
-		<br/>
-		<br/>
+		<li><a href='<% request.uri_base %>/voter/'>Review Voter Data</a></li>
+	</ul>
+            <h3>Database Maintainance</h3>
+	<ul>
 		<li><a href='<% request.uri_base %>/newdb'> New Database(Careful this will destroy all existing data)</a></li>
 	</ul>
 </div>

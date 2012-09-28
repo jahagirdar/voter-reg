@@ -73,7 +73,10 @@ get '/newdb' => sub{
 	return template 'index';
 
 };
-get '/' => sub {
+get '/' =>sub {
+	return template 'index.tt';
+};
+get '/rwa/add' => sub {
 	my $prefix_setting = Dancer::App->current->prefix || '';
 	my $actionurl=$prefix_setting.'';
 	my $defaultValues;
