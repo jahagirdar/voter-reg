@@ -1,5 +1,6 @@
 <%BLOCK b%> <b><%var%></b><%END%>
       <div id="content">
+<!-- Author Vijayvithal -->
 <%FOREACH p IN cfg%>
 <h1>Form <%IF p.FormType == 6%>
 “FORM 6”Application for inclusion of name in electoral roll
@@ -91,4 +92,4 @@ III. Details of member(s) of applicant’s family already included in the curren
 <hr/>
 <hr/>
 <center>...(Cut Here)...</center>
-</div>
+Status<%PROCESS b var=p.verified%></div>

@@ -1,6 +1,7 @@
 <%BLOCK b%> <strong <%IF field !=''%>class='edit' id='<%field%>'<%END%> ><%var%></strong><%END%>
 <%FOREACH p IN cfg%>
 <html>
+<!-- Author Vijayvithal -->
 
 <head>
     <script src="<%request.uri_base%>/javascripts/jquery.js"></script>

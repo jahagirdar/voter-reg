@@ -1,4 +1,5 @@
 package smartVote;
+#Author Vijayvithal
 use Dancer ':syntax';
 use Data::Dumper;
 	use Time::Piece;
@@ -83,6 +84,8 @@ get '/rwa/add' => sub {
 	my $form=CGI::FormBuilder->new(
 		title=>'Association details',
 		fields=>[qw(Assembly_Constituency Apartment_Name Street Town Post_office Taluka District Pincode)],
+		validate=>{Pincode=>'/^\d{6}/'},
+		required=>[qw(Assembly_Constituency Apartment_Name Street Town Post_office Taluka District Pincode)],
 		action =>$actionurl,
 );
 	if ($form->submitted && $form->validate) {
@@ -207,6 +210,21 @@ post '/voter/edit/:mode'=>sub {
 }
 	return params->{value};
 };
+get '/voter/validate/:id' => sub{
+	my $where;
+	if (params->{id} eq 'all') {$where={};}else {$where={id=>params->{id};}}
+	my @voters=$db->quick_select('details',$where);
+	foreach my $voter (@voters){
+		$voter->{verified}='false' unless (
+			$voter->{Name} ~=/^[a-zA-Z]{3,}/ && 
+			$voter->{DOB} ~=/^\d{4}-\d{2}-\d{2}/ &&
+			$voter->{phone} ~=/^\d{10,}/ &&
+			$voter->{email} ~=/^.+@.+\..+/ &&
+		);
+	}
+	return template 'candidate_list';
+};
+
 get '/voter/new/:id' =>sub{
 		   my $db=database('new');
 		   my $flds=$db->quick_select('details',{id=>params->{id}});
