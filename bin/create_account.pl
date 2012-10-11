@@ -4,18 +4,19 @@ my @voters=(
 	{	fn => 'James', ln => 'Bond', mob   => "9986854998", sex => 'M', ques => '1', ans => 'ak47', email => 'dt.siindia@gmail.com' },
 	{	fn => 'Harry', ln => 'potter', mob => "9880123369", sex => 'M', ques => '1', ans => 'Anna', email => 'd.tsiindia@gmail.com' }
 );
+  foreach my $voter (@voters){
   my $mech = WWW::Mechanize::Firefox->new();
    $mech->autoclose_tab( 0 );
-  foreach my $voter (@voters){
 	  $mech->get('http://www.voterreg.kar.nic.in/Signup.aspx');
-	  $mech->clear_current_form;
+	  $mech->events( ['load'] );
+	  ##$mech->clear_current_form;
 	  $mech->form_name( 'form1' );
 	  print "You could click on\n";
 	  for my $el ($mech->clickables) {
 	          print $el->{innerHTML}, "\n";
 	  };
 	  print "\nmobile$voter->{mob}:";
-	  $mech->field  ( txtMobile  => $voter->{mob}   ); 
+	  $mech->field  ( txtMobile  => $voter->{mob},[],[]  ); 
 	  print "\nsex";
 	  $mech->select ( ddlSex     => $voter->{sex}   ); 
 	  print "\nfn";
